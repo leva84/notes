@@ -43,3 +43,6 @@ Style/HashSyntax:
 Style/ClassAndModuleChildren:
   Exclude:
     - 'test/channels/application_cable/connection_test.rb'
+
+Layout/LineLength:
+  Max: 150
