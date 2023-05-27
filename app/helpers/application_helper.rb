@@ -1,6 +1,6 @@
 module ApplicationHelper
   def sign_up_button
-    button_to t('buttons.sign_up'), new_user_registration_path, class: 'text-white btn btn-secondary btn-sm'
+    link_to t('buttons.sign_up'), new_user_registration_path, class: 'text-white btn btn-secondary btn-sm'
   end
 
   def sign_in_button

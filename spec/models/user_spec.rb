@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe User, type: :model do
   let(:user) { create(:user) }
 
@@ -64,61 +62,61 @@ RSpec.describe User, type: :model do
 
       it 'is not valid' do
         expect(user).not_to be_valid
-        expect(user.errors[:email]).to include('is invalid')
+        expect(user.errors[:email]).to include(t('activerecord.errors.models.user.attributes.email.invalid'))
       end
     end
 
     context 'with too short password' do
       let(:password) { 'short' }
 
-      it 'is not valid' do
+      it 'is short' do
         expect(user).not_to be_valid
-        expect(user.errors[:password]).to include('is too short (minimum is 6 characters)')
+        expect(user.errors[:password]).to include(t('activerecord.errors.models.user.attributes.password.too_short', count: 6))
       end
     end
 
     context 'with too long password' do
       let(:password) { '1' * 251 }
 
-      it 'is not valid' do
+      it 'is long' do
         expect(user).not_to be_valid
-        expect(user.errors[:password]).to include('is too long (maximum is 250 characters)')
+        expect(user.errors[:password]).to include(t('activerecord.errors.models.user.attributes.password.too_long', count: 128))
       end
     end
 
     context 'with long first_name' do
       let(:first_name) { '1' * 151 }
 
-      it 'is not valid' do
+      it 'is long' do
         expect(user).not_to be_valid
-        expect(user.errors[:first_name]).to include('is too long (maximum is 150 characters)')
+        expect(user.errors[:first_name]).to include(t('activerecord.errors.models.user.attributes.first_name.too_long', count: 150))
       end
     end
 
     context 'with short first_name' do
       let(:first_name) { '1' * 2 }
 
-      it 'is not valid' do
+      it 'is short' do
         expect(user).not_to be_valid
-        expect(user.errors[:first_name]).to include('is too short (minimum is 3 characters)')
+        expect(user.errors[:first_name]).to include(t('activerecord.errors.models.user.attributes.first_name.too_short', count: 3))
       end
     end
 
     context 'with long last_name' do
       let(:last_name) { '1' * 151 }
 
-      it 'is not valid' do
+      it 'is long' do
         expect(user).not_to be_valid
-        expect(user.errors[:last_name]).to include('is too long (maximum is 150 characters)')
+        expect(user.errors[:last_name]).to include(t('activerecord.errors.models.user.attributes.last_name.too_long', count: 150))
       end
     end
 
     context 'with short last_name' do
       let(:last_name) { '1' * 2 }
 
-      it 'is not valid' do
+      it 'is short' do
         expect(user).not_to be_valid
-        expect(user.errors[:last_name]).to include('is too short (minimum is 3 characters)')
+        expect(user.errors[:last_name]).to include(t('activerecord.errors.models.user.attributes.last_name.too_short', count: 3))
       end
     end
   end

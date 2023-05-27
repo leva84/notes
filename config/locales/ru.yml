@@ -1,0 +1,21 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              invalid: является недействительным
+            password:
+              too_long: слишком длинный (максимум %{count} символов)
+              too_short: слишком короткий (минимум %{count} символов)
+            first_name:
+              too_long: слишком длинный (максимум %{count} символов)
+              too_short: слишком короткий (минимум %{count} символов)
+            last_name:
+              too_long: слишком длинный (максимум %{count} символов)
+              too_short: слишком короткий (минимум %{count} символов)
+  buttons:
+    sign_up: Зарегистрироваться
+    sign_in: Войти
+    sign_out: Выйти

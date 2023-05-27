@@ -1,0 +1,5 @@
+ru:
+  devise:
+    sessions:
+      signed_in: Выполнен вход.
+      signed_out: Выполнен выход.
