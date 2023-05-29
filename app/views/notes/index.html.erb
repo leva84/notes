@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <div></div>
+    <h2><%= @notes_count %> notes</h2>
+  </div>
+  <turbo-frame id="notes_table">
+    <table class="table" id="myTable">
+      <thead>
+      <tr>
+        <th style="width: 3%">#</th>
+        <th>Message</th>
+        <th style="width: 10%">Author</th>
+        <th style="width: 10%">Date</th>
+        <th style="width: 5%"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @notes.each_with_index do |note, index| %>
+        <%= turbo_stream_from "note#{ note.id }" %>
+        <tr id="<%= dom_id(note) %>">
+          <td><%= (@notes.current_page - 1) * @notes.limit_value + index + 1 %></td>
+          <%= render note %>
+          <% if note.user == current_user %>
+            <td><%= link_to trash_icon,
+                            note_path(note),
+                            data: { turbo_method: :delete, turbo_confirm: 'Вы уверены?' } %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <%= paginate @notes, theme: 'bootstrap-5',
+                 pagination_class: 'pagination-sm flex-wrap justify-content-center',
+                 nav_class: 'd-inline-block' %>
+
+  </turbo-frame>
+
+  <% if user_signed_in? %>
+    <h2>Create new Note</h2>
+    <%= render 'form', note: @note %>
+  <% end %>
+
+  <br>
+</div>

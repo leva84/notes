@@ -1,5 +1,9 @@
 ru:
   devise:
+    failure:
+      invalid: Неверный %{authentication_keys} или пароль.
     sessions:
       signed_in: Выполнен вход.
       signed_out: Выполнен выход.
+    registrations:
+      signed_up: Добро пожаловать! Вы успешно зарегистрировались.

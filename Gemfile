@@ -6,8 +6,10 @@ gem 'rails', '~> 7.0.5'
 
 gem 'bootsnap', require: false
 gem 'bootstrap', '~> 5.2'
+gem 'bootstrap5-kaminari-views'
 gem 'devise'
 gem 'importmap-rails'
+gem 'kaminari'
 # gem "kredis"
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
