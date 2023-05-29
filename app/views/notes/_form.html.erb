@@ -1,0 +1,20 @@
+<%= form_with model: note do |form| %>
+  <% if note.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% note.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :message %>
+    <%= form.text_field :message, class: 'form-control', placeholder: 'WRITE A NEW NOTE' %>
+  </div>
+
+  <br>
+
+  <%= form.submit 'Create Note', class: 'btn btn-primary' %>
+<% end %>

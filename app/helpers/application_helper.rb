@@ -10,4 +10,8 @@ module ApplicationHelper
   def sign_out_button
     button_to t('buttons.sign_out'), destroy_user_session_path, method: :delete, class: 'text-white btn btn-secondary btn-sm'
   end
+
+  def trash_icon
+    tag.i(class: 'bi bi-trash')
+  end
 end
