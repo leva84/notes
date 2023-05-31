@@ -6,15 +6,20 @@ ru:
           attributes:
             email:
               invalid: является недействительным
+              blank: не может быть пустым
+              taken: уже существует
             password:
               too_long: слишком длинный (максимум %{count} символов)
               too_short: слишком короткий (минимум %{count} символов)
+              blank: не может быть пустым
             first_name:
               too_long: слишком длинный (максимум %{count} символов)
               too_short: слишком короткий (минимум %{count} символов)
             last_name:
               too_long: слишком длинный (максимум %{count} символов)
               too_short: слишком короткий (минимум %{count} символов)
+            current_password:
+              blank: введите пароль для обновления
         note:
           attributes:
             message:
@@ -33,14 +38,29 @@ ru:
     sign_in: Войти
     sign_out: Выйти
     create_note: Создать заметку
+    cancel_my_account: Удалить учетную запись
+    back: Назад
   titles:
     site_name: NOTES
+    edit_user: Обновление учетной записи
     number_of_notes: Количество заметок
     note_placeholder: НАПИСАТЬ НОВУЮ ЗАПИСКУ
     delete: Удалить
     confirm: Вы уверены?
     no_trash: Вы можете удалить только свою заметку
     create_note: Новая заметка
+    email: Email
+    first_name: Имя
+    last_name: Фамилия
+    password: Пароль
+    password_confirmation: Пдтверждение пароля
+    current_password: Текущий пароль
+    current_password_to_confirm: нам нужен ваш текущий пароль, чтобы подтвердить ваши изменения
+    characters_minimum: минимум символов
+    leave_blank: оставьте пустым, если вы не хотите его менять
+    unhappy?: Не нравиться?
+    sign_up: Зарегистрироваться
+    sign_in: Вход в систему
     table:
       message: Заметка
       author: Автор

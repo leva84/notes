@@ -1,0 +1,60 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title mb-4"><%= t('titles.edit_user') %></h2>
+
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+            <%= render "users/shared/error_messages", resource: resource %>
+
+            <div class="mb-3">
+              <%= f.label t('titles.first_name'), class: "form-label" %>
+              <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label t('titles.last_name'), class: "form-label" %>
+              <%= f.text_field :last_name, autocomplete: "last_name", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label t('titles.password') , class: "form-label" %> <i>(<%= t('titles.leave_blank') %>)</i>
+              <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+              <% if @minimum_password_length %>
+                <small class="form-text text-muted"><%= @minimum_password_length %> <%= t('titles.characters_minimum') %></small>
+              <% end %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label t('titles.password_confirmation'), class: "form-label" %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label t('titles.current_password'), class: "form-label" %> <i>(<%= t('titles.current_password_to_confirm') %>)</i>
+              <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control" %>
+            </div>
+
+            <div class="actions d-grid gap-2">
+              <%= f.submit "Update", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+
+          <hr>
+
+          <p><%= t('titles.unhappy?') %> <%= button_to t('buttons.cancel_my_account'),
+                                                       registration_path(resource_name),
+                                                       data: {
+                                                           confirm: t('titles.confirm'),
+                                                           turbo_confirm: t('titles.confirm')
+                                                       },
+                                                       method: :delete,
+                                                       class: "btn btn-danger" %></p>
+
+          <%= link_to t('buttons.back'), :back, class: "btn btn-secondary mt-3" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
