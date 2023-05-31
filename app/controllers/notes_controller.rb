@@ -22,6 +22,7 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
 
     if @note.user == current_user
+      @note.destroy
       flash[:notice] = t('actions.note.destroy.success')
     else
       flash[:alert] = t('actions.note.destroy.errors')

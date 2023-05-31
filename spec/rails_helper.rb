@@ -24,6 +24,8 @@ RSpec.configure do |config|
   config.after { Warden.test_reset! }
 
   config.include AbstractController::Translation
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
 end
 
 Shoulda::Matchers.configure do |config|

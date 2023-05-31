@@ -2,13 +2,13 @@ RSpec.describe 'Index notes', type: :feature do
   let(:user) { create(:user) }
 
   before do
-    sign_in user
+    login_as(user)
     visit root_path
   end
 
   it 'creating a new note without reloading the page', js: true do
     fill_in 'note_message', with: 'Test message'
-    click_button 'Create Note'
+    click_button t('buttons.create_note')
 
     expect(page).to have_content('Test message')
     expect(page).to have_current_path(root_path)
@@ -39,9 +39,10 @@ RSpec.describe 'Index notes', type: :feature do
 
   it 'displaying error messages when creating a note with invalid attributes', js: true do
     fill_in 'note_message', with: ''
-    click_button 'Create Note'
+    click_button t('buttons.create_note')
 
-    expect(page).to have_content("Message can't be blank")
+    p page
+    expect(page).to have_content('["Message не может быть пустым", "Message слишком короткий (минимум 3 символов)"]')
   end
 
   it 'displaying pagination for the list of notes' do
@@ -52,7 +53,7 @@ RSpec.describe 'Index notes', type: :feature do
   end
 
   it 'displaying the new note form only for authenticated users' do
-    sign_out user
+    logout(:user)
     visit root_path
 
     expect(page).not_to have_selector('#new_note')

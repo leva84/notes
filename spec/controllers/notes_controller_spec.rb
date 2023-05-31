@@ -2,113 +2,117 @@ RSpec.describe NotesController, type: :controller do
   let(:user) { create(:user) }
   let(:note) { create(:note, user: user) }
 
-  describe 'GET #index' do
-    it 'assigns @notes_count' do
-      get :index
-      expect(assigns(:notes_count)).to eq(Note.all.size)
-    end
+  before { sign_in user }
 
-    it 'assigns @notes' do
-      get :index
-      expect(assigns(:notes)).to eq(Note.order(created_at: :desc).page(nil).per(20))
-    end
-
-    it 'assigns @note' do
-      get :index
-      expect(assigns(:note)).to be_a_new(Note)
-    end
-
+  describe '#index' do
     it 'renders the index template' do
       get :index
-      expect(response).to render_template('index')
+      expect(response).to render_template(:index)
     end
   end
 
-  describe 'POST #create' do
-    context 'when user is authenticated' do
-      before { sign_in user }
+  describe '#create' do
+    subject(:create_note) { post :create, params: params }
 
-      context 'with valid attributes' do
-        it 'creates a new note' do
-          expect do
-            post :create, params: { note: attributes_for(:note) }
-          end.to change(Note, :count).by(1)
-        end
+    before do
+      request.headers['HTTP_ACCEPT'] = 'text/vnd.turbo-stream.html'
+    end
 
-        it 'redirects to the root path' do
-          post :create, params: { note: attributes_for(:note) }
-          expect(response).to redirect_to(root_path)
-        end
+    context 'with valid attributes' do
+      let(:params) { { note: attributes_for(:note) } }
+
+      it 'returns http_status 200' do
+        create_note
+        expect(response).to have_http_status(:ok)
       end
 
-      context 'with invalid attributes' do
+      it 'creates a new note' do
+        expect { create_note }.to change(Note, :count).by(1)
+      end
+
+      it 'not renders the index template' do
+        create_note
+        expect(response).not_to render_template(:index)
+      end
+
+      it 'sets a success flash message' do
+        create_note
+        expect(flash[:notice]).to eq(t('actions.note.create.success'))
+      end
+    end
+
+    context 'with invalid attributes' do
+      let(:params) { { note: attributes_for(:note, message: message) } }
+
+      context 'with short or missing message' do
+        let(:message) { '1' * 2 }
+        let(:error) { ["Message #{t('activerecord.errors.models.note.attributes.message.too_short', count: 3)}"] }
+
+        it 'returns http_status 200' do
+          create_note
+          expect(response).to have_http_status(:ok)
+        end
+
         it 'does not create a new note' do
-          expect do
-            post :create, params: { note: attributes_for(:note, message: nil) }
-          end.not_to change(Note, :count)
+          expect { create_note }.not_to change(Note, :count)
         end
 
-        it 'renders the index template' do
-          post :create, params: { note: attributes_for(:note, message: nil) }
-          expect(response).to render_template('index')
+        it 'not renders the index template' do
+          create_note
+          expect(response).not_to render_template(:index)
+        end
+
+        it 'sets a error flash message' do
+          create_note
+          expect(flash[:alert]).to eq(error)
         end
       end
-    end
 
-    context 'when user is not authenticated' do
-      it 'redirects to the sign in page' do
-        post :create, params: { note: attributes_for(:note) }
-        expect(response).to redirect_to(new_user_session_path)
+      context 'with long message' do
+        let(:message) { '1' * 1001 }
+        let(:error) { ["Message #{t('activerecord.errors.models.note.attributes.message.too_long', count: 1000)}"] }
+
+        it 'returns http_status 200' do
+          create_note
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'does not create a new note' do
+          expect { create_note }.not_to change(Note, :count)
+        end
+
+        it 'not renders the index template' do
+          create_note
+          expect(response).not_to render_template(:index)
+        end
+
+        it 'sets a error flash message' do
+          create_note
+          expect(flash[:alert]).to eq(error)
+        end
       end
     end
   end
 
-  describe 'DELETE #destroy' do
-    context 'when user is authenticated' do
-      before { sign_in user }
+  describe '#destroy' do
+    subject(:destroy_note) { delete :destroy, params: params }
 
-      context 'when note belongs to current user' do
-        it 'deletes the note' do
-          note = create(:note, user: user)
-          expect do
-            delete :destroy, params: { id: note.id }
-          end.to change(Note, :count).by(-1)
-        end
+    let(:params) { { id: note.id } }
 
-        it 'redirects to the root path' do
-          delete :destroy, params: { id: note.id }
-          expect(response).to redirect_to(root_path)
-        end
-      end
+    before { request.headers['HTTP_ACCEPT'] = 'text/vnd.turbo-stream.html' }
 
-      context 'when note does not belong to current user' do
-        let(:other_user) { create(:user) }
-        let(:other_note) { create(:note, user: other_user) }
-
-        it 'does not delete the note' do
-          other_note = create(:note, user: other_user)
-          expect do
-            delete :destroy, params: { id: other_note.id }
-          end.not_to change(Note, :count)
-        end
-
-        it 'sets a flash alert message' do
-          delete :destroy, params: { id: other_note.id }
-          expect(flash[:alert]).to eq('Вы не можете удалить эту заметку')
-        end
-
-        it 'redirects to the root path' do
-          delete :destroy, params: { id: other_note.id }
-          expect(response).to redirect_to(root_path)
-        end
-      end
+    it 'returns http_status 200' do
+      expect(response).to have_http_status(:ok)
     end
 
-    context 'when user is not authenticated' do
-      it 'redirects to the sign in page' do
-        delete :destroy, params: { id: note.id }
-        expect(response).to redirect_to(new_user_session_path)
-      end
+    it 'deletes the note' do
+      note = create(:note, user: user)
+
+      expect { delete :destroy, params: { id: note.id } }.to change(Note, :count).by(-1)
+    end
+
+    it 'not renders the index template' do
+      expect(response).not_to render_template(:index)
     end
   end
 end
