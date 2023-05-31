@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   # buttons
   #
   def sign_up_button
@@ -15,7 +14,7 @@ module ApplicationHelper
   end
 
   def edit_user_button(user)
-    link_to "#{user.email}", edit_user_registration_path(user), class: "text-white text-decoration-none"
+    link_to user.email, edit_user_registration_path(user), class: 'text-white text-decoration-none'
   end
 
   # icons

@@ -6,11 +6,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def configure_sign_up_params
     devise_parameter_sanitizer
-        .permit(:sign_up, keys: %i[email password password_confirmation])
+      .permit(:sign_up, keys: %i[email password password_confirmation])
   end
 
   def configure_account_update_params
     devise_parameter_sanitizer
-        .permit(:account_update, keys: %i[first_name last_name password password_confirmation current_password])
+      .permit(:account_update, keys: %i[first_name last_name password password_confirmation current_password])
   end
 end

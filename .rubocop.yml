@@ -35,6 +35,9 @@ RSpec/NestedGroups:
 RSpec/Rails/InferredSpecType:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
@@ -45,10 +48,6 @@ Style/HashSyntax:
   Enabled: false
 
 # Adjusted
-
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'test/channels/application_cable/connection_test.rb'
 
 Layout/LineLength:
   Max: 150

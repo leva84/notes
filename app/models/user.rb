@@ -15,13 +15,14 @@ class User < ApplicationRecord
 
   def email_required?
     return false if persisted?
+
     super
   end
 
   private
 
   def set_default_name
-    self.first_name = "User"
+    self.first_name = 'User'
     self.last_name = rand(1..1000).to_s
   end
 end
