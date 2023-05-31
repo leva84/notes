@@ -2,6 +2,7 @@ ru:
   devise:
     failure:
       invalid: Неверный %{authentication_keys} или пароль.
+      unauthenticated: Прежде чем продолжить, вам необходимо войти или зарегистрироваться.
     sessions:
       signed_in: Выполнен вход.
       signed_out: Выполнен выход.

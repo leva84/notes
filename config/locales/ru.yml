@@ -15,7 +15,33 @@ ru:
             last_name:
               too_long: слишком длинный (максимум %{count} символов)
               too_short: слишком короткий (минимум %{count} символов)
+        note:
+          attributes:
+            message:
+              too_long: слишком длинный (максимум %{count} символов)
+              too_short: слишком короткий (минимум %{count} символов)
+              blank: не может быть пустым
+  actions:
+    note:
+      create:
+        success: Заметка успешно добавлена
+      destroy:
+        success: Заметка успешно удалена
+        errors: Вы не можете удалить эту заметку
   buttons:
     sign_up: Зарегистрироваться
     sign_in: Войти
     sign_out: Выйти
+    create_note: Создать заметку
+  titles:
+    site_name: NOTES
+    number_of_notes: Количество заметок
+    note_placeholder: НАПИСАТЬ НОВУЮ ЗАПИСКУ
+    delete: Удалить
+    confirm: Вы уверены?
+    no_trash: Вы можете удалить только свою заметку
+    create_note: Новая заметка
+    table:
+      message: Заметка
+      author: Автор
+      date: Дата

@@ -1,0 +1,22 @@
+<table class="table" id="myTable">
+  <thead>
+  <tr>
+    <th style="width: 3%">#</th>
+    <th><%= t('titles.table.message') %></th>
+    <th style="width: 10%"><%= t('titles.table.author') %></th>
+    <th style="width: 10%"><%= t('titles.table.date') %></th>
+    <th style="width: 5%"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @notes.each_with_index do |note, index| %>
+    <%= render note, row_number: row_number(index) %>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= paginate @notes, theme: 'bootstrap-5',
+             pagination_class: 'pagination-sm flex-wrap justify-content-center',
+             nav_class: 'd-inline-block' %>

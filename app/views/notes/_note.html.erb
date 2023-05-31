@@ -1,3 +1,16 @@
-<td><%= note.message %></td>
-<td title="<%= note.user.full_name %>"><%= note.user.email %></td>
-<td title="<%= note.created_at.strftime('%H:%M') %>"><%= note.created_at.strftime('%d.%m.%Y') %></td>
+<tr>
+  <td><%= row_number %></td>
+  <td><%= note.message %></td>
+  <td title="<%= note.user.full_name %>"><%= note.user.email %></td>
+  <td title="<%= note.created_at.strftime('%H:%M') %>"><%= note.created_at.strftime('%d.%m.%Y') %></td>
+  <% if note.user == current_user %>
+    <td title="<%= t('titles.delete') %>"><%= link_to trash_icon,
+                                                      note_path(note),
+                                                      data: {
+                                                          turbo_method: :delete,
+                                                          turbo_confirm: t('titles.confirm')
+                                                      } %></td>
+  <% else %>
+    <td title="<%= t('titles.no_trash') %>"><%= no_trash_icon %></td>
+  <% end %>
+</tr>

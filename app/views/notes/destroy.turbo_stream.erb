@@ -1,0 +1,8 @@
+<% if @note.user == current_user %>
+  <% @note.destroy %>
+  <%= turbo_stream.update(:notes_table, partial: 'notes_table', locals: { notes: @notes }) %>
+  <%= update_counter %>
+  <%= prepend_flash %>
+<% else %>
+  <%= prepend_flash %>
+<% end %>
