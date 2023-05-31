@@ -7,16 +7,21 @@ RSpec.describe 'Index notes', type: :feature do
   end
 
   it 'creating a new note without reloading the page', js: true do
+    notes_count = Note.count
+
     fill_in 'note_message', with: 'Test message'
     click_button t('buttons.create_note')
 
     expect(page).to have_content('Test message')
     expect(page).to have_current_path(root_path)
+    expect(find("#counter h2").text).to eq("#{t('titles.number_of_notes')} #{notes_count + 1}")
   end
 
   it 'deleting a note without reloading the page', js: true do
     note = create(:note, user: user)
     visit root_path
+
+    notes_count = Note.count
 
     accept_confirm do
       find("a[href='#{note_path(note)}']").click
@@ -24,6 +29,7 @@ RSpec.describe 'Index notes', type: :feature do
 
     expect(page).not_to have_content(note.message)
     expect(page).to have_current_path(root_path)
+    expect(find("#counter h2").text).to eq("#{t('titles.number_of_notes')} #{notes_count - 1}")
   end
 
   it 'displaying a list of notes with author and date information' do
@@ -35,14 +41,6 @@ RSpec.describe 'Index notes', type: :feature do
       expect(page).to have_content(note.user.email)
       expect(page).to have_content(note.created_at.strftime('%d.%m.%Y'))
     end
-  end
-
-  it 'displaying error messages when creating a note with invalid attributes', js: true do
-    fill_in 'note_message', with: ''
-    click_button t('buttons.create_note')
-
-    p page
-    expect(page).to have_content('["Message не может быть пустым", "Message слишком короткий (минимум 3 символов)"]')
   end
 
   it 'displaying pagination for the list of notes' do

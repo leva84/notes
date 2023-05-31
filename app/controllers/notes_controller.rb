@@ -3,18 +3,20 @@ class NotesController < ApplicationController
 
   before_action :authenticate_user!, only: %i[create destroy]
   before_action :pagination_notes
-  before_action :notes_count
 
-  def index; end
+  def index
+    set_notes_count
+  end
 
   def create
     @note = Note.new(note_params)
     @note.user_id = current_user.id
 
     if @note.save
-      flash[:notice] = t('actions.note.create.success')
+      set_notes_count
+      flash.now[:notice] = t('actions.note.create.success')
     else
-      flash[:alert] = @note.errors.full_messages
+      flash.now[:alert] = @note.errors.full_messages
     end
   end
 
@@ -23,9 +25,10 @@ class NotesController < ApplicationController
 
     if @note.user == current_user
       @note.destroy
-      flash[:notice] = t('actions.note.destroy.success')
+      set_notes_count
+      flash.now[:notice] = t('actions.note.destroy.success')
     else
-      flash[:alert] = t('actions.note.destroy.errors')
+      flash.now[:alert] = t('actions.note.destroy.errors')
     end
   end
 
@@ -39,7 +42,7 @@ class NotesController < ApplicationController
     @notes = Note.order(created_at: :desc).page(params[:page]).per(PER_PAGE)
   end
 
-  def notes_count
+  def set_notes_count
     @notes_count = Note.count
   end
 end
