@@ -1,0 +1,17 @@
+<div class="container">
+  <% if notice %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert">
+      <div style="color: green">
+        <%= notice %>
+      </div>
+      <button class="btn-close" data-bs-dismiss="alert" type="button"></button>
+    </div>
+  <% elsif alert %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+      <div style="color: red">
+        <%= alert %>
+      </div>
+      <button class="btn-close" data-bs-dismiss="alert" type="button"></button>
+    </div>
+  <% end %>
+</div>
