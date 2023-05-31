@@ -39,6 +39,7 @@ ru:
     sign_out: Выйти
     create_note: Создать заметку
     cancel_my_account: Удалить учетную запись
+    update_my_account: Обновить учетную запись
     back: Назад
   titles:
     site_name: NOTES

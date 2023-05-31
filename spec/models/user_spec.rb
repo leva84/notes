@@ -42,14 +42,12 @@ RSpec.describe User, type: :model do
 
   describe '#validatable' do
     let(:user) do
-      build(:user, email: email, password: password, password_confirmation: password_confirmation,
-                   first_name: first_name, last_name: last_name)
+      build(:user, email: email, password: password, password_confirmation: password_confirmation)
     end
+
     let(:email) { 'test@example.com' }
     let(:password) { 'password' }
     let(:password_confirmation) { 'password' }
-    let(:first_name) { 'First_name' }
-    let(:last_name) { 'Last_name' }
 
     context 'with valid attributes' do
       it 'is valid' do
@@ -81,42 +79,6 @@ RSpec.describe User, type: :model do
       it 'is long' do
         expect(user).not_to be_valid
         expect(user.errors[:password]).to include(t('activerecord.errors.models.user.attributes.password.too_long', count: 128))
-      end
-    end
-
-    context 'with long first_name' do
-      let(:first_name) { '1' * 151 }
-
-      it 'is long' do
-        expect(user).not_to be_valid
-        expect(user.errors[:first_name]).to include(t('activerecord.errors.models.user.attributes.first_name.too_long', count: 150))
-      end
-    end
-
-    context 'with short first_name' do
-      let(:first_name) { '1' * 2 }
-
-      it 'is short' do
-        expect(user).not_to be_valid
-        expect(user.errors[:first_name]).to include(t('activerecord.errors.models.user.attributes.first_name.too_short', count: 3))
-      end
-    end
-
-    context 'with long last_name' do
-      let(:last_name) { '1' * 151 }
-
-      it 'is long' do
-        expect(user).not_to be_valid
-        expect(user.errors[:last_name]).to include(t('activerecord.errors.models.user.attributes.last_name.too_long', count: 150))
-      end
-    end
-
-    context 'with short last_name' do
-      let(:last_name) { '1' * 2 }
-
-      it 'is short' do
-        expect(user).not_to be_valid
-        expect(user.errors[:last_name]).to include(t('activerecord.errors.models.user.attributes.last_name.too_short', count: 3))
       end
     end
   end

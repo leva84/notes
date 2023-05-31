@@ -23,6 +23,6 @@ class User < ApplicationRecord
 
   def set_default_name
     self.first_name = 'User'
-    self.last_name = rand(1..1000).to_s
+    self.last_name = rand(100..1000).to_s
   end
 end
