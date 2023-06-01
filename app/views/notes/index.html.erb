@@ -1,17 +1,21 @@
 <div class="container">
-  <div id="counter">
-    <%= render 'counter' %>
-  </div>
+  <div class="row">
+    <div class="col-md-4 order-md-2 d-flex align-items-center justify-content-center">
+      <%= render 'counter' %>
+    </div>
 
-  <%= turbo_stream_from 'notes_table' %>
-  <%= turbo_frame_tag 'notes_table' do %>
-    <%= render 'notes_table' %>
-  <% end %>
+    <div class="col-md-8 order-md-1 mt-5">
+      <%= turbo_stream_from 'notes_table' %>
+      <%= turbo_frame_tag 'notes_table' do %>
+        <%= render 'notes_table' %>
+      <% end %>
+    </div>
+  </div>
 
   <br>
 
   <% if user_signed_in? %>
-    <h2 class="mt-2"><%= t('titles.create_note') %></h2>
+    <h3 class="mt-2"><%= t('titles.create_note') %></h3>
 
     <%= turbo_stream_from 'new_note' %>
     <%= turbo_frame_tag 'new_note' do %>

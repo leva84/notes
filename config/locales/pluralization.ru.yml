@@ -1,0 +1,7 @@
+ru:
+  note:
+    zero: '%{count} заметок'
+    one: '%{count} заметка'
+    few: '%{count} заметки'
+    many: '%{count} заметок'
+    other: '%{count} заметок'

@@ -14,7 +14,7 @@ RSpec.describe 'Index notes', type: :feature do
 
     expect(page).to have_content('Test message')
     expect(page).to have_current_path(root_path)
-    expect(find('#counter h2').text).to eq("#{t('titles.number_of_notes')} #{notes_count + 1}")
+    expect(find('#counter div').text).to eq(t('note', count: notes_count + 1))
   end
 
   it 'deleting a note without reloading the page', js: true do
@@ -29,7 +29,7 @@ RSpec.describe 'Index notes', type: :feature do
 
     expect(page).not_to have_content(note.message)
     expect(page).to have_current_path(root_path)
-    expect(find('#counter h2').text).to eq("#{t('titles.number_of_notes')} #{notes_count - 1}")
+    expect(find('#counter div').text).to eq(t('note', count: notes_count - 1))
   end
 
   it 'displaying a list of notes with author and date information' do
