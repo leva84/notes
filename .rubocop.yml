@@ -44,6 +44,9 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/GlobalVars:
+  Enabled: false
+
 Style/HashSyntax:
   Enabled: false
 

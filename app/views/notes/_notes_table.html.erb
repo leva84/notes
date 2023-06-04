@@ -1,4 +1,4 @@
-<table class="table" id="notes_table">
+<table class="table" id="notes_table" data-controller="notes-table">
   <thead>
   <tr>
     <th style="width: 3%">#</th>
@@ -9,14 +9,17 @@
   </tr>
   </thead>
   <tbody>
-  <% @notes.each_with_index do |note, index| %>
-    <%= render note, row_number: row_number(index) %>
+  <% (@notes || notes).each_with_index do |note, index| %>
+    <tr>
+      <td><%= row_number(index, (@notes || notes)) %></td>
+      <td><%= note.message %></td>
+      <td title="<%= note.user.full_name %>"><%= note.user.email %></td>
+      <td title="<%= note.created_at.strftime('%H:%M') %>"><%= note.created_at.strftime('%d.%m.%Y') %></td>
+      <!-- Для отображения актуальной иконки в таблице заметок относительно каждого пользователя          -->
+      <!-- используется два контроллера Stimulus: app/javascript/controllers/current_user_controller.js и -->
+      <!-- app/javascript/controllers/notes_table_controller.js                                           -->
+      <td><%= trash_icon(note) %><%= no_trash_icon(note) %></td>
+    </tr>
   <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= paginate @notes, theme: 'bootstrap-5',
-             pagination_class: 'pagination-sm flex-wrap justify-content-center',
-             nav_class: 'd-inline-block' %>

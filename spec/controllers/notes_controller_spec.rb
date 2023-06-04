@@ -16,6 +16,8 @@ RSpec.describe NotesController, type: :controller do
 
     before do
       request.headers['HTTP_ACCEPT'] = 'text/vnd.turbo-stream.html'
+      allow(BroadcastService).to receive(:call)
+      allow(NotesCounter).to receive(:increment)
     end
 
     context 'with valid attributes' do
@@ -38,6 +40,16 @@ RSpec.describe NotesController, type: :controller do
       it 'sets a success flash message' do
         create_note
         expect(flash[:notice]).to eq(t('actions.note.create.success'))
+      end
+
+      it 'calls BroadcastService.call with notes' do
+        create_note
+        expect(BroadcastService).to have_received(:call).with(notes: assigns(:notes))
+      end
+
+      it 'increments NotesCounter' do
+        create_note
+        expect(NotesCounter).to have_received(:increment)
       end
     end
 
@@ -66,6 +78,11 @@ RSpec.describe NotesController, type: :controller do
           create_note
           expect(flash[:alert]).to eq(error)
         end
+
+        it 'does not increment NotesCounter' do
+          create_note
+          expect(NotesCounter).not_to have_received(:increment)
+        end
       end
 
       context 'with long message' do
@@ -90,6 +107,11 @@ RSpec.describe NotesController, type: :controller do
           create_note
           expect(flash[:alert]).to eq(error)
         end
+
+        it 'does not increment NotesCounter' do
+          create_note
+          expect(NotesCounter).not_to have_received(:increment)
+        end
       end
     end
   end
@@ -99,7 +121,11 @@ RSpec.describe NotesController, type: :controller do
 
     let(:params) { { id: note.id } }
 
-    before { request.headers['HTTP_ACCEPT'] = 'text/vnd.turbo-stream.html' }
+    before do
+      request.headers['HTTP_ACCEPT'] = 'text/vnd.turbo-stream.html'
+      allow(BroadcastService).to receive(:call)
+      allow(NotesCounter).to receive(:decrement)
+    end
 
     it 'returns http_status 200' do
       expect(response).to have_http_status(:ok)
@@ -113,6 +139,30 @@ RSpec.describe NotesController, type: :controller do
 
     it 'not renders the index template' do
       expect(response).not_to render_template(:index)
+    end
+
+    it 'calls BroadcastService.call with notes' do
+      destroy_note
+      expect(BroadcastService).to have_received(:call).with(notes: assigns(:notes))
+    end
+
+    it 'decrements NotesCounter' do
+      destroy_note
+      expect(NotesCounter).to have_received(:decrement)
+    end
+
+    context 'when note does not belong to current_user' do
+      let(:another_user) { create(:user) }
+      let(:note) { create(:note, user: another_user) }
+
+      before do
+        allow(NotesCounter).to receive(:decrement)
+      end
+
+      it 'does not decrement NotesCounter' do
+        destroy_note
+        expect(NotesCounter).not_to have_received(:decrement)
+      end
     end
   end
 end

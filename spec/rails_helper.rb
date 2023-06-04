@@ -28,6 +28,8 @@ RSpec.configure do |config|
   config.include AbstractController::Translation
 
   config.include Devise::Test::ControllerHelpers, type: :controller
+
+  config.before { $redis.del('notes_count') }
 end
 
 Shoulda::Matchers.configure do |config|

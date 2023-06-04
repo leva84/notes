@@ -19,22 +19,36 @@ module ApplicationHelper
 
   # icons
   #
-  def trash_icon
-    tag.i(class: 'bi bi-trash')
+  def trash_icon(note)
+    link_to tag.i(class: 'bi bi-trash'),
+            note_path(note),
+            title: t('titles.delete'),
+            data: {
+              turbo_method: :delete,
+              turbo_confirm: t('titles.confirm'),
+              notes_table_target: 'deleteIcon',
+              user_id: note.user.id
+            }
   end
 
-  def no_trash_icon
-    tag.i(class: 'bi bi-slash-circle')
+  def no_trash_icon(note)
+    content_tag :span,
+                tag.i(class: 'bi bi-slash-circle'),
+                title: t('titles.no_trash'),
+                data: {
+                  notes_table_target: 'noTrashIcon',
+                  user_id: note.user.id
+                }
   end
 
   # turbo
   #
-  def prepend_flash
+  def update_flash
     turbo_stream.update 'flash', partial: 'layouts/flash'
   end
 
-  def update_counter
-    turbo_stream.update 'counter', partial: 'notes/counter'
+  def clean_note_form
+    turbo_stream.replace 'new_note', partial: 'notes/form', locals: { note: new_note }
   end
 
   # sundry
@@ -43,7 +57,11 @@ module ApplicationHelper
     Note.new
   end
 
-  def row_number(index)
-    index + 1 + ((@notes.current_page - 1) * @notes.limit_value)
+  def row_number(index, notes)
+    index + 1 + ((notes.current_page - 1) * notes.limit_value)
+  end
+
+  def notes_count
+    NotesCounter.count
   end
 end
