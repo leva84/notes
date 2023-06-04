@@ -29,9 +29,6 @@
 
 # confidentially
 /config/master.key
-/config/database.yml
-/config/storage.yml
-/config/redis.yml
 /config/secrets.yml
 
 # miscellaneous
