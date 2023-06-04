@@ -4,10 +4,10 @@ class NotesCounter
     @client = $redis
     @count = @client.get('notes_count').to_i
 
-    if @count == 0
-      @client.set('notes_count', Note.count)
-      @count = @client.get('notes_count').to_i
-    end
+    return unless @count.zero?
+
+    @client.set('notes_count', Note.count)
+    @count = @client.get('notes_count').to_i
   end
 
   def increment
