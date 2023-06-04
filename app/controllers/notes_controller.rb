@@ -3,11 +3,9 @@ class NotesController < ApplicationController
 
   before_action :authenticate_user!, only: %i[create destroy]
   before_action :notes
-  after_action :update_broadcast, only: %i[create destroy]
+  after_action :broadcast_call, only: %i[create destroy]
 
-  def index
-    set_notes_count
-  end
+  def index; end
 
   def create
     @note = Note.new(note_params)
@@ -44,10 +42,14 @@ class NotesController < ApplicationController
   end
 
   def update_notes_count
-    @notes_count = Note.count
+    if params[:action] == 'create'
+      NotesCounter.increment
+    elsif params[:action] == 'destroy'
+      NotesCounter.decrement
+    end
   end
 
-  def update_broadcast
-    BroadcastService.call(notes: @notes, notes_count: @notes_count)
+  def broadcast_call
+    BroadcastService.call(notes: @notes)
   end
 end

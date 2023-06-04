@@ -1,8 +1,8 @@
 class BroadcastService
   class << self
-    def call(notes: nil, notes_count: nil)
+    def call(notes: nil)
       broadcast_notes_table(notes)
-      broadcast_counter(notes_count)
+      broadcast_counter
     end
 
     private
@@ -16,13 +16,8 @@ class BroadcastService
                                                  locals: { notes: notes })
     end
 
-    def broadcast_counter(notes_count)
-      return Rails.logger.error 'Unable to update broadcast for counter. Notes count missing' unless notes_count
-
-      Turbo::StreamsChannel.broadcast_update_to('counter',
-                                                target: 'counter',
-                                                partial: 'notes/counter',
-                                                locals: { notes_count: notes_count })
+    def broadcast_counter
+      Turbo::StreamsChannel.broadcast_update_to('counter', target: 'counter', partial: 'notes/counter')
     end
   end
 end

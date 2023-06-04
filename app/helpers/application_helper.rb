@@ -60,4 +60,8 @@ module ApplicationHelper
   def row_number(index, notes)
     index + 1 + ((notes.current_page - 1) * notes.limit_value)
   end
+
+  def notes_count
+    NotesCounter.count
+  end
 end
