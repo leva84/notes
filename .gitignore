@@ -33,6 +33,7 @@
 /config/storage.yml
 /config/redis.yml
 /config/secrets.yml
+/config/cable.yml
 
 # miscellaneous
 .idea

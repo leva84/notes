@@ -1,14 +1,17 @@
-<div class="container">
+<div class="container" data-controller="current-user" data-current-user-id-value="<%= current_user&.id %>">
   <div class="row">
     <div class="col-md-4 order-md-2 d-flex align-items-center justify-content-center">
+      <%= turbo_stream_from 'counter' %>
       <%= render 'counter' %>
     </div>
 
     <div class="col-md-8 order-md-1 mt-5">
       <%= turbo_stream_from 'notes_table' %>
-      <%= turbo_frame_tag 'notes_table' do %>
-        <%= render 'notes_table' %>
-      <% end %>
+      <%= render 'notes_table' %>
+      <%= paginate (@notes || notes),
+                   theme: 'bootstrap-5',
+                   pagination_class: 'pagination-sm flex-wrap justify-content-center',
+                   nav_class: 'd-inline-block' %>
     </div>
   </div>
 
@@ -17,9 +20,8 @@
   <% if user_signed_in? %>
     <h3 class="mt-2"><%= t('titles.create_note') %></h3>
 
-    <%= turbo_stream_from 'new_note' %>
-    <%= turbo_frame_tag 'new_note' do %>
+    <div id="new_note">
       <%= render 'form', note: new_note %>
-    <% end %>
+    </div>
   <% end %>
 </div>

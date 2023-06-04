@@ -1,9 +1,2 @@
-<% if @note.save %>
-  <%= turbo_stream.update(:notes_table, partial: 'notes_table', locals: { notes: @notes }) %>
-  <%= turbo_stream.update(:new_note, partial: 'form', locals: { note: new_note }) %>
-  <%= update_counter %>
-  <%= prepend_flash %>
-<% else %>
-  <%= turbo_stream.replace(:new_note, partial: 'form', locals: { note: Note.new }) %>
-  <%= prepend_flash %>
-<% end %>
+<%= clean_note_form %>
+<%= update_flash %>
