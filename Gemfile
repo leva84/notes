@@ -10,7 +10,6 @@ gem 'bootstrap5-kaminari-views'
 gem 'devise'
 gem 'importmap-rails'
 gem 'kaminari'
-# gem "kredis"
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'redis', '~> 4.0'
