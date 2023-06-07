@@ -1,6 +1,6 @@
-// app/javascript/controllers/current_user_controller.js
 import { Controller } from "@hotwired/stimulus";
 
+// Connects to data-controller="current-user"
 export default class extends Controller {
     static values = { id: String };
 
